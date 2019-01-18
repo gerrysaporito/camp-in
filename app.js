@@ -11,22 +11,6 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 seedDB();
 
-
-// // creating a campground
-// Campground.create(
-//   {
-//     name: "Bissels hideaway",
-//     image: "http://bissellshideaway.com/ckfinder/userfiles/blog/1_1403883367_Tenting.jpg",
-//     description: "THIS IS A DESCRIPTION"
-//   }, function(err, campground) {
-//   if(err) {
-//     console.log(err);
-//   } else {
-//     console.log("NEWLY CREATED CAMPGROUND: ")
-//     console.log(campground);
-//   }
-// });
-
 //setting homepage
 app.get("/", function(req, res){
   res.render("landing");
@@ -77,9 +61,14 @@ app.get("/index/:id", function(req, res) {
       //render show template with that campground
       res.render("show", {campground: foundCampground})
     }
-  })
-  //show campground on the id page
+  });
 });
+
+//============================
+//======COMMENTS ROUTES=======
+//============================
+
+
 
 
 //starting server
