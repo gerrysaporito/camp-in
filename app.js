@@ -1,40 +1,85 @@
-var express = require("express");
-var app = express();
-var bodyParser = require("body-parser");
+var express     = require("express"),
+    app         = express(),
+    bodyParser  = require("body-parser"),
+    mongoose    = require("mongoose");
+    Campground   = require("./models/campground"),
+    seedDB      = require("./seeds");
+    // Comment = require("./models/comments")
 
+mongoose.connect("mongodb://localhost/yelp_camp");
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
+seedDB();
 
-//temporary campgrounds array
-var campgrounds = [
-  {name: "Salmon Creek", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREqeGgygmTTYSMdxdxFqONtU-WIa2AdY3jXjYfAMJdUteshnZi"},
-  {name: "Bear Cove", image: "https://www.yosemite.com/wp-content/uploads/2016/04/westlake-campground.png"},
-  {name: "Deer Glade", image: "https://www.pc.gc.ca/en/pn-np/ab/banff/activ/camping/~/media/802FD4AF791F4C6886E18CBF4A2B81B2.ashx?w=595&h=396&as=1"}
-]
+
+// // creating a campground
+// Campground.create(
+//   {
+//     name: "Bissels hideaway",
+//     image: "http://bissellshideaway.com/ckfinder/userfiles/blog/1_1403883367_Tenting.jpg",
+//     description: "THIS IS A DESCRIPTION"
+//   }, function(err, campground) {
+//   if(err) {
+//     console.log(err);
+//   } else {
+//     console.log("NEWLY CREATED CAMPGROUND: ")
+//     console.log(campground);
+//   }
+// });
 
 //setting homepage
 app.get("/", function(req, res){
   res.render("landing");
 });
 
-//campgrounds page
-app.get("/campgrounds", function(req, res) {
-  res.render("campgrounds", {campgrounds: campgrounds});
+//INDEX ROUTE - campgrounds page
+app.get("/index", function(req, res) {
+  //get all campgrounds from db
+  Campground.find({}, function(err, allCampgrounds){
+    if(err) {
+      console.log(err)
+    } else {
+      res.render("index", {campgrounds: allCampgrounds});
+    }
+  })
 });
 
-//to add a new campground page
-app.get("/campgrounds/new", function(req, res){
+//NEW ROUTE - shows form to create new campground
+app.get("/index/new", function(req, res){
   res.render("new.ejs");
 });
 
-//adding new campground to campground page and database
-app.post("/campgrounds", function(req, res){
+//CREATE ROUTE - adding new campground to campground database
+app.post("/index", function(req, res){
   let name = req.body.name;
   let image = req.body.image;
-  let newCampground = {name: name, image: image}
-  campgrounds.push(newCampground);
-  res.redirect("/campgrounds");
+  let desc = req.body.description;
+  let newCampground = {name: name, image: image, description: desc}
+  //create new campground and save to database
+  Campground.create(newCampground), function(err, newlyCreated) {
+    if(err) {
+      console.log(err);
+    } else {
+      res.redirect("/index");
+    }
+  }
+  res.redirect("/index");
 });
+
+//SHOW ROUTE - shows more info about selected campground
+app.get("/index/:id", function(req, res) {
+  //find campground with that idea
+  Campground.findById(req.params.id).populate("comments").exec(function(err, foundCampground){
+    if(err) {
+      console.log(err);
+    } else {
+      //render show template with that campground
+      res.render("show", {campground: foundCampground})
+    }
+  })
+  //show campground on the id page
+});
+
 
 //starting server
 app.listen(3000, function() {
