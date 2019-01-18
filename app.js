@@ -68,15 +68,16 @@ app.post("/index", function(req, res){
 
 //SHOW ROUTE - shows more info about selected campground
 app.get("/index/:id", function(req, res) {
-  //find campground with that idea
-  Campground.findById(req.params.id).populate("comments").exec(function(err, foundCampground){
+  //find campground with that id
+  Campground.findById(req.params.id, function(err, foundCampground){
+    console.log(foundCampground);
     if(err) {
       console.log(err);
     } else {
       //render show template with that campground
       res.render("show", {campground: foundCampground})
     }
-  })
+  });
   //show campground on the id page
 });
 
