@@ -16,6 +16,10 @@ app.get("/", function(req, res){
   res.render("campgrounds/landing");
 });
 
+app.get("/index", function(req, res) {
+  res.redirect("/campgrounds/index");
+});
+
 //INDEX ROUTE - campgrounds page
 app.get("/campgrounds/index", function(req, res) {
   //get all campgrounds from db
@@ -67,8 +71,8 @@ app.get("/index/:id", function(req, res) {
 //============================
 //======COMMENTS ROUTES=======
 //============================
-app.get("campgrounds/:id/comments/new", function(req, res){
-  render("comments/new");
+app.get("/index/:id/comments/new", function(req, res){
+  res.render("comments/new");
 })
 
 
