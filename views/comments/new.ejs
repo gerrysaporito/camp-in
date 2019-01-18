@@ -1,13 +1,12 @@
-<% include ./partials/header %>
-
+<% include partials/header %>
 
 <div class="container">
   <div class="row">
-    <h1 style="text-align: center;">Add New Comment to <%= campground.name %></h1>
+    <h1 style="text-align: center;">Create a new campground</h1>
 
     <div style="width: 30%; margin: 35px auto;">
       <!-- Form -->
-      <form action="/campgrounds/:id/comments" method="POST">
+      <form action="/index" method="POST">
         <div class="form-group">
           <input class="form-control" type="text" name="name" placeholder="name">
         </div>
@@ -30,4 +29,4 @@
 
   </div>
 </div>
-<% include ../partials/footer %>
+<% include partials/footer %>

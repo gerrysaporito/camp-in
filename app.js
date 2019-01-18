@@ -13,24 +13,24 @@ seedDB();
 
 //setting homepage
 app.get("/", function(req, res){
-  res.render("landing");
+  res.render("campgrounds/landing");
 });
 
 //INDEX ROUTE - campgrounds page
-app.get("/index", function(req, res) {
+app.get("/campgrounds/index", function(req, res) {
   //get all campgrounds from db
   Campground.find({}, function(err, allCampgrounds){
     if(err) {
       console.log(err)
     } else {
-      res.render("index", {campgrounds: allCampgrounds});
+      res.render("campgrounds/index", {campgrounds: allCampgrounds});
     }
   })
 });
 
 //NEW ROUTE - shows form to create new campground
 app.get("/index/new", function(req, res){
-  res.render("new.ejs");
+  res.render("campgrounds/new");
 });
 
 //CREATE ROUTE - adding new campground to campground database
@@ -53,13 +53,13 @@ app.post("/index", function(req, res){
 //SHOW ROUTE - shows more info about selected campground
 app.get("/index/:id", function(req, res) {
   //find campground with that id
-  Campground.findById(req.params.id).populate("comments").exec(function(err, foundCampground){
+  Campground.findById(req.params.id).populate("comment").exec(function(err, foundCampground){
     console.log(foundCampground);
     if(err) {
       console.log(err);
     } else {
       //render show template with that campground
-      res.render("show", {campground: foundCampground})
+      res.render("campgrounds/show", {campground: foundCampground})
     }
   });
 });
@@ -67,7 +67,9 @@ app.get("/index/:id", function(req, res) {
 //============================
 //======COMMENTS ROUTES=======
 //============================
-
+app.get("campgrounds/:id/comments/new", function(req, res){
+  render("comments/new");
+})
 
 
 
