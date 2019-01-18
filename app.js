@@ -3,8 +3,8 @@ var express     = require("express"),
     bodyParser  = require("body-parser"),
     mongoose    = require("mongoose");
     Campground   = require("./models/campground"),
-    seedDB      = require("./seeds");
-    // Comment = require("./models/comments")
+    seedDB      = require("./seeds"),
+    Comment     = require("./models/comment");
 
 mongoose.connect("mongodb://localhost/yelp_camp");
 app.use(bodyParser.urlencoded({extended: true}));
@@ -69,7 +69,7 @@ app.post("/index", function(req, res){
 //SHOW ROUTE - shows more info about selected campground
 app.get("/index/:id", function(req, res) {
   //find campground with that id
-  Campground.findById(req.params.id, function(err, foundCampground){
+  Campground.findById(req.params.id).populate("comments").exec(function(err, foundCampground){
     console.log(foundCampground);
     if(err) {
       console.log(err);
@@ -77,7 +77,7 @@ app.get("/index/:id", function(req, res) {
       //render show template with that campground
       res.render("show", {campground: foundCampground})
     }
-  });
+  })
   //show campground on the id page
 });
 
