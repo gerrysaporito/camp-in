@@ -1,25 +1,25 @@
-//=====================Importing=========================
+//=====================Importing=========================//
     //variables
-var express                 = require("express"),
-    mongoose                = require("mongoose"),
-    passport                = require("passport"),
-    expressSession          = require("express-session"),
-    bodyParser              = require("body-parser"),
-    localStrategy           = require("passport-local"),
-    passportLocalMongoose   = require("passport-local-mongoose"),
-    //schemas
-    User                    = require("./models/user"),
-    Comment                 = require("./models/comment"),
-    Campground              = require("./models/campground"),
-    //routes
-    campgroundRoutes = require("./routes/campgrounds");
-    commentRoutes = require("./routes/comments");
-    indexRoutes = require("./routes/index"),
+    var express                 = require("express"),
+        mongoose                = require("mongoose"),
+        passport                = require("passport"),
+        expressSession          = require("express-session"),
+        bodyParser              = require("body-parser"),
+        localStrategy           = require("passport-local"),
+        passportLocalMongoose   = require("passport-local-mongoose"),
+        //schemas
+        User                    = require("./models/user"),
+        Comment                 = require("./models/comment"),
+        Campground              = require("./models/campground"),
+        //routes
+        campgroundRoutes = require("./routes/campgrounds");
+        commentRoutes = require("./routes/comments");
+        indexRoutes = require("./routes/index"),
 
-    seedDB                  = require("./seeds"),
-    app                     = express();
+        seedDB                  = require("./seeds"),
+        app                     = express();
 
-//===============INITIALIZING/SETUP APPS=================
+//===============INITIALIZING/SETUP APPS=================//
     //connecting to database
     mongoose.connect("mongodb://localhost/yelp_camp");
     //initializing body parser
@@ -56,7 +56,7 @@ var express                 = require("express"),
     app.use("/", indexRoutes);
 
 
-//starting server
-app.listen(3000, function() {
-  console.log("Yelpcamp server has started.");
-})
+  //starting server
+  app.listen(3000, function() {
+    console.log("Yelpcamp server has started.");
+  });
