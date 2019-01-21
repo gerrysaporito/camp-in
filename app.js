@@ -7,6 +7,7 @@
         bodyParser              = require("body-parser"),
         localStrategy           = require("passport-local"),
         passportLocalMongoose   = require("passport-local-mongoose"),
+        methodOverride          = require("method-override")
         //schemas
         User                    = require("./models/user"),
         Comment                 = require("./models/comment"),
@@ -16,6 +17,7 @@
         commentRoutes = require("./routes/comments");
         indexRoutes = require("./routes/index"),
 
+
         seedDB                  = require("./seeds"),
         app                     = express();
 
@@ -24,11 +26,13 @@
     mongoose.connect("mongodb://localhost/yelp_camp");
     //initializing body parser
     app.use(bodyParser.urlencoded({extended: true}));
+    //allows other requests than get and post
+    app.use(methodOverride("_method"));
     //including directories
     app.set("view engine", "ejs");
     app.use(express.static(__dirname + "/public"));
     //resets database and adds in samples
-    seedDB();
+    // seedDB();       //seed the database
 
     //PASSPORT CONFIGURATION
     app.use(expressSession({
