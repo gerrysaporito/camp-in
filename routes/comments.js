@@ -28,6 +28,7 @@
           //create a new comment
           Comment.create(req.body.comment, function(err, comment){
             if(err){
+              req.flash("error", "Something went wrong.");
               console.log(err);
             } else {
               //add username and id of logged in user to comment
@@ -38,6 +39,7 @@
               campground.comments.push(comment);
               campground.save();
               //redirect to campground show page
+              req.flash("success", "Successfully added comment.");
               res.redirect("/index/" + campground._id);
             }
           });
@@ -48,13 +50,19 @@
 //==================EDIT/UPDATE COMMENTS ROUTES==================//
     //EDIT
     router.get("/:comment_id/edit", middleware.checkCommentOwnership, function(req, res){
-      Comment.findById(req.params.comment_id, function(err, foundComment){
-        if(err) {
+      Campground.findById(req.params.id, function(err, foundCampground){
+        if(err || !foundComment) {
+          req.flash("error", "No campground found.");
           res.redirect("back");
-        } else {
-          res.render("comments/edit", {campground_id: req.params.id, comment: foundComment});
         }
-      })
+        Comment.findById(req.params.comment_id, function(err, foundComment){
+          if(err) {
+            res.redirect("back");
+          } else {
+            res.render("comments/edit", {campground_id: req.params.id, comment: foundComment});
+          }
+        });
+      });
     });
 
     //UPDATE
@@ -74,6 +82,7 @@
         if(err){
           res.redirect("back");
         } else {
+          req.flash("success", "Comment deleted.");
           res.redirect("/index/" + req.params.id);
         }
       });

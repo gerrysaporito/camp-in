@@ -18,7 +18,7 @@
         if(err) {
           console.log(err);
         } else {
-          res.render("campgrounds/index", {campgrounds: allCampgrounds});
+          res.render("campgrounds/index", {campgrounds: allCampgrounds, page: 'campgrounds'});
         }
       })
     });
@@ -30,11 +30,12 @@
       let name = req.body.name,
           image = req.body.image,
           desc = req.body.description,
+          price = req.body.price,
           author = {
             id: req.user._id,
             username: req.user.username
           }
-          newCampground = {name: name, image: image, description: desc, author: author},
+          newCampground = {name: name, image: image, description: desc, price: price, author: author},
 
       //create new campground and save to database
       Campground.create(newCampground, function(err, newlyCreated) {
@@ -56,8 +57,9 @@
       var commArr = []
       //find campground with that id
       Campground.findById(req.params.id).populate("comment").exec(function(err, foundCampground){
-        if(err) {
-          console.log(err);
+        if(err || !foundCampground) {
+          req.flash("error", "Campground not found.");
+          res.redirect("/back");
         } else {
           //render show template with that campground
           res.render("campgrounds/show", {campground: foundCampground, comments: commArr});

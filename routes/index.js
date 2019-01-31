@@ -12,7 +12,7 @@
 //==========================REGISTER ROUTES=======================//
     //routing to register form
     router.get("/register", function(req, res){
-      res.render("register");
+      res.render("register", {page: "register"});
     });
     //Handling User Signup
     router.post("/register", function(req, res){
@@ -23,10 +23,11 @@
       User.register(new User({username: username}), password, function(err, user){
         if(err){
           console.log(err);
-          return res.render("register");
+          return res.render("register", {error: err.message});
         }
         //will log user in, store information about user, and handle sessions,
         passport.authenticate("local")(req, res, function(){
+          req.flash("Success", "Welcome to Yelpcamp" + user.username);
           res.redirect("/campgrounds/index");
         });
       });
@@ -35,7 +36,7 @@
 //=======================LOGIN ROUTES============================//
     //Show Login Form
     router.get("/login", function(req, res) {
-      res.render("login");
+      res.render("login", {page: "login"});
     });
     //Handling Login logic
     router.post("/login", passport.authenticate("local", {
@@ -49,15 +50,8 @@
     router.get("/logout", function(req, res){
       //handles everything
       req.logout();
-      res.redirect("/");
+      req.flash("success", "Successfully logged you out.");
+      res.redirect("/campgrounds/index");
     });
-
-    //authenticate user is logged in (helper function)
-    function isLoggedIn(req, res, next){
-      if(req.isAuthenticated()){
-        return next();
-      }
-      res.redirect("/login");
-    }
 
     module.exports = router;

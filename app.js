@@ -7,7 +7,8 @@
         bodyParser              = require("body-parser"),
         localStrategy           = require("passport-local"),
         passportLocalMongoose   = require("passport-local-mongoose"),
-        methodOverride          = require("method-override")
+        methodOverride          = require("method-override"),
+        flash                   = require("connect-flash"),
         //schemas
         User                    = require("./models/user"),
         Comment                 = require("./models/comment"),
@@ -33,6 +34,8 @@
     app.use(express.static(__dirname + "/public"));
     //resets database and adds in samples
     // seedDB();       //seed the database
+    //includes the flash messages
+    app.use(flash());
 
     //PASSPORT CONFIGURATION
     app.use(expressSession({
@@ -48,9 +51,12 @@
     //responsible for reading the session
     passport.serializeUser(User.serializeUser());
     passport.deserializeUser(User.deserializeUser());
-    //pass user request to every page
+
+    //pass items onto every page
     app.use(function(req, res, next){
       res.locals.currentUser = req.user;
+      res.locals.error = req.flash("error");
+      res.locals.success = req.flash("success");
       next();
     });
 
