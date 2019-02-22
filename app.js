@@ -29,7 +29,7 @@
     app.use(bodyParser.urlencoded({extended: true}));
     //allows other requests than get and post
     app.use(methodOverride("_method"));
-    //including directories
+    //including directories (never have to add ejs in code)
     app.set("view engine", "ejs");
     app.use(express.static(__dirname + "/public"));
     //resets database and adds in samples

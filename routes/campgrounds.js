@@ -1,5 +1,5 @@
 //=======================VARIABLE DECLARATIONS=======================//
-    var express     = require("express");
+    var express     = require("express"),
         router      = express.Router(),
         middleware  = require("../middleware"),
         Campground  = require("../models/campground");
