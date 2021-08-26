@@ -77,12 +77,6 @@ Also unit & integration tests should be created to build out a proper testing pi
 
 Because this app was created by following instructors, most of the kinks are already fleshed out. There aren't too many edge cases but below are a few I was able to identify.
 
-### Load Testing 🚩
-
-Because this app isn't as optimized as it could be, heavy loads could cause slow responses from the API.
-
-To help with this, adding mongoose hooks to schemas can marginally reduce the amount of database requests going through.
-
 ### Notes 🖍
 
 This is by no means an exhaustive list but only a few of the more critical points.
