@@ -3,7 +3,7 @@
 <div class="container">
   <div class="gow">
     <div class="col-md-3">
-      <p class="lead">Yelp Camp</p>
+      <p class="lead">CampIn</p>
       <div class="list-group">
         <li class="list-group-item active">Info</li>
         <li class="list-group-item">Info</li>
@@ -13,7 +13,7 @@
   </div>
   <div class="col-md-9">
     <div class="thumbnail">
-      <img src="<%= campground.image %>" class="img-responsive" alt="">
+      <img src="<%= campground.image %>" class="img-responsive" alt="" />
       <div class="caption-full">
         <h4 class="pull-right">$<%= campground.price %>/night</h4>
         <h4><a href=""><%= campground.name %></a></h4>
@@ -21,45 +21,58 @@
         <p><em>Submitted by:<%= campground.author.username %></em></p>
         <!-- AUTHORIZATION-->
         <% if(currentUser && campground.author.id.equals(currentUser._id)){ %>
-          <a class="btn btn-warning" href="/index/<%= campground._id %>/edit">Edit</a>
-          <form class="deleteForm" action="/index/<%= campground._id %>?_method=DELETE" method="POST">
-              <button class="btn btn-danger">Delete</button>
-          </form>
+        <a class="btn btn-warning" href="/index/<%= campground._id %>/edit"
+          >Edit</a
+        >
+        <form
+          class="deleteForm"
+          action="/index/<%= campground._id %>?_method=DELETE"
+          method="POST"
+        >
+          <button class="btn btn-danger">Delete</button>
+        </form>
         <% } %>
         <a class="btn btn-primary" href="/campgrounds/index">Back</a>
       </div>
     </div>
     <div class="well">
       <div class="text-right">
-        <a class="btn btn-success" href="/index/<%= campground._id %>/comments/new">Leave a Review</a>
-        <hr>
+        <a
+          class="btn btn-success"
+          href="/index/<%= campground._id %>/comments/new"
+          >Leave a Review</a
+        >
+        <hr />
       </div>
       <% campground.comments.forEach(function(comment) { %>
-        <div class="row">
-          <div class="col-d-12">
-            <!--Proper Code with working database-->
-            <!--<strong> < %= comment.author.text %></strong> -->
-            <strong><%= comment.author %></strong>
-            <span class="pull-right">10 days ago</span>
-            <p>
-              <%= comment.text %>
-            </p>
-            <!--Proper Code with working database-->
-            <!--< % if(currentUser && comment.author.id.equals(currentUser._id)) { %>-->
-            <% if(currentUser && comment.equals(currentUser._id)) { %>
-              <a class="btn btn-xs btn-warning" href="/index/<%= campground._id %>/comments/<%= comment._id %>/edit">Edit</a>
-              <form class="deleteForm" action="/index/<%= campground._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
-                <input type="submit" class="btn btn-xs btn-danger" value="Delete">
-              </form>
-            <% } %>
-          </div>
+      <div class="row">
+        <div class="col-d-12">
+          <!--Proper Code with working database-->
+          <!--<strong> < %= comment.author.text %></strong> -->
+          <strong><%= comment.author %></strong>
+          <span class="pull-right">10 days ago</span>
+          <p><%= comment.text %></p>
+          <!--Proper Code with working database-->
+          <!--< % if(currentUser && comment.author.id.equals(currentUser._id)) { %>-->
+          <% if(currentUser && comment.equals(currentUser._id)) { %>
+          <a
+            class="btn btn-xs btn-warning"
+            href="/index/<%= campground._id %>/comments/<%= comment._id %>/edit"
+            >Edit</a
+          >
+          <form
+            class="deleteForm"
+            action="/index/<%= campground._id %>/comments/<%= comment._id %>?_method=DELETE"
+            method="POST"
+          >
+            <input type="submit" class="btn btn-xs btn-danger" value="Delete" />
+          </form>
+          <% } %>
         </div>
+      </div>
       <% }); %>
     </div>
   </div>
 </div>
-
-
-
 
 <% include ../partials/footer %>

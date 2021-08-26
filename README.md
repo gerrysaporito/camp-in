@@ -1,6 +1,4 @@
-# Camp In
-
-![alt text](./assets/campgrounds.PNG 'Camp In's homepage')
+# CampIn
 
 ## Introduction 🎩
 
